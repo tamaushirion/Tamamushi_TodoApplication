@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/list.css}">
+<title>Todo一覧画面</title>
+</head>
+<body class="form-list">
+
+    <h1>TodoList</h1>
+    <a class="font-size" th:href="@{/add}">Todo追加</a>
+    
+    <h1>未完了リスト</h1>
+    <table class="table table-bordered" >
+	  <thead>
+	  <tr>
+	    <th>id</th>
+	    <th>タイトル</th>
+	    <th>期日</th>
+	    <th></th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr  th:each="fList : ${falseList}">
+	      <td th:text="${fList.id}"></td>
+	      <td th:text="${fList.title}"></td>
+	      <td th:text="${#dates.format(fList.timeLimit, 'yyyy-MM-dd')}"></td>
+	      <td><a th:href="@{'/todos/' + ${fList.id}}">詳細</a></td>
+	  </tr>
+	  </tbody>
+</table>
+    
+    <h1>完了リスト</h1>
+    <table class="table table-bordered">
+	  <thead>
+	  <tr>
+	    <th>id</th>
+	    <th>タイトル</th>
+	    <th>期日</th>
+	    <th></th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr  th:each="tList : ${trueList}">
+	      <td th:text="${tList.id}"></td>
+	      <td th:text="${tList.title}"></td>
+	      <td th:text="${#dates.format(tList.timeLimit, 'yyyy-MM-dd')}"></td>
+	      <td><a th:href="@{'/todos/' + ${tList.id}}">詳細</a></td>
+	  </tr>
+	  </tbody>
+</table>
+
+<form th:action="@{/todos}" method="post">
+  <button class="btn btn-primary" type="submit" name="delete">完了済みを削除</button>
+</form>
+</body>
+</html>
