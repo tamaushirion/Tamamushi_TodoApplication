@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.domain.user.model.UserEntity;
+import com.example.domain.user.model.TodoEntity;
 import com.example.domain.user.service.TodoService;
 import com.example.form.AddForm;
 import com.example.form.DetailForm;
@@ -32,13 +32,13 @@ public class TodoController {
 	public String getTodoList(Model model) {
 		
 		//完了取得
-		List<UserEntity> trueList = service.selectTrue();
+		List<TodoEntity> completedTodoList = service.selectCompletedTodoList();
 		
 		//未完了取得
-		List<UserEntity> falseList = service.selectFalse();
+		List<TodoEntity> incompleteTodoList = service.selectIncompleteTodoList();
 		
-		model.addAttribute("trueList", trueList);
-		model.addAttribute("falseList", falseList);
+		model.addAttribute("completedTodoList", completedTodoList);
+		model.addAttribute("incompleteTodoList", incompleteTodoList);
 		
 		return "html/list";
 	}
@@ -55,11 +55,23 @@ public class TodoController {
 	@PostMapping("/add")
 	public String postAddTodo(@ModelAttribute @Validated AddForm form, BindingResult bindingResult, Model model) {
 		
+		//タイトル重複チェックのためリスト全権取得
+		List<TodoEntity> allTodoList = service.selectAllTodoList();
+		
+		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
+			
 			return getAddTodo(model, form);
 		}
+		//タイトル重複チェック
+		for(TodoEntity todo : allTodoList) {
+			if(todo.getTitle().equals(form.getTitle())) {
+				
+				return getAddTodo(model, form);
+			}
+		}
 		
-		UserEntity todo = modelMapper.map(form, UserEntity.class);
+		TodoEntity todo = modelMapper.map(form, TodoEntity.class);
 		
 		service.insertOne(todo);
 		
@@ -81,8 +93,23 @@ public class TodoController {
 	@PostMapping("/update")
 	public String updateTodo(@ModelAttribute @Validated DetailForm form, BindingResult bindingResult, Model model) {
 		
+		//タイトル重複チェックのためリスト全権取得
+		List<TodoEntity> allTodoList = service.selectAllTodoList();
+		
+		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "html/detail";
+		}
+		
+		//タイトル重複チェック
+		for(TodoEntity todo : allTodoList) {
+			if(todo.getTitle().equals(form.getTitle())) {
+				//変更するTodoのタイトルに関しては変更前と重複しても良い
+				if(todo.getId() != form.getId()) {
+					
+					return "html/detail";
+				}
+			}
 		}
 		
 		service.updateOne(form.getId(), form.getTitle(), form.getTimeLimit(), form.getIsDone());
@@ -93,12 +120,14 @@ public class TodoController {
 	//削除処理
 	@PostMapping(value="/todos", params="delete")
 	public String deleteTodo(Model model) {
+		//完了Todoリスト取得
+		List<TodoEntity> completedTodoList = service.selectCompletedTodoList();
 		
-		List<UserEntity> trueList = service.selectTrue();
-		
-		for(UserEntity trues : trueList) {
-			
-			service.deleteTodo(trues.getIsDone());
+		//完了Todoリストを展開
+		for(TodoEntity completedTodo : completedTodoList) {
+			//完了済のリストを一件ずつ削除
+			//完了済のTodo分処理を実行
+			service.deleteCompletedTodoList(completedTodo.getIsDone());
 			
 		}
 		

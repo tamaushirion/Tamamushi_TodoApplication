@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.repository.TodoMapper">
 
-<resultMap type="com.example.domain.user.model.UserEntity" id="user">
+<resultMap type="com.example.domain.user.model.TodoEntity" id="user">
   <id column="id" property="id"/>
   <result column="title" property="title" />
   <result column="is_done" property="isDone" />
@@ -11,28 +11,28 @@
 </resultMap>
 
 <!-- 一覧取得 -->
-<select id="selectAll" resultType="com.example.domain.user.model.UserEntity">
+<select id="selectAllTodoList" resultType="com.example.domain.user.model.TodoEntity">
 
   SELECT * FROM TODO_DETAILS
   
 </select>
 
 <!-- 完了取得 -->
-<select id="selectTrue" resultType="com.example.domain.user.model.UserEntity">
+<select id="selectCompletedTodoList" resultType="com.example.domain.user.model.TodoEntity">
 
   SELECT * FROM TODO_DETAILS WHERE IS_DONE = 'TRUE'
   
 </select>
 
 <!-- 未完了取得 -->
-<select id="selectFalse" resultType="com.example.domain.user.model.UserEntity">
+<select id="selectIncompleteTodoList" resultType="com.example.domain.user.model.TodoEntity">
 
   SELECT * FROM TODO_DETAILS WHERE IS_DONE = 'FALSE'
   
 </select>
 
 <!-- Todo1件取得 -->
-<select id="selectOne" resultType="com.example.domain.user.model.UserEntity">
+<select id="selectOne" resultType="com.example.domain.user.model.TodoEntity">
 
   SELECT * FROM TODO_DETAILS WHERE ID = #{id}
   
@@ -67,7 +67,7 @@ time_limit
 </update>
 
 <!-- 完了済みTodo削除 -->
-<delete id="deleteTodo">
+<delete id="deleteCompletedTodoList">
 	DELETE FROM TODO_DETAILS WHERE is_done = true
 </delete>
 

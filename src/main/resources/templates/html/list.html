@@ -22,7 +22,7 @@
 	  </tr>
 	  </thead>
 	  <tbody>
-	  <tr  th:each="fList : ${falseList}">
+	  <tr  th:each="fList : ${incompleteTodoList}">
 	      <td th:text="${fList.id}"></td>
 	      <td th:text="${fList.title}"></td>
 	      <td th:text="${#dates.format(fList.timeLimit, 'yyyy-MM-dd')}"></td>
@@ -42,7 +42,7 @@
 	  </tr>
 	  </thead>
 	  <tbody>
-	  <tr  th:each="tList : ${trueList}">
+	  <tr  th:each="tList : ${completedTodoList}">
 	      <td th:text="${tList.id}"></td>
 	      <td th:text="${tList.title}"></td>
 	      <td th:text="${#dates.format(tList.timeLimit, 'yyyy-MM-dd')}"></td>

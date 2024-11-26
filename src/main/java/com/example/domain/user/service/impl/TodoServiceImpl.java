@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.domain.user.model.UserEntity;
+import com.example.domain.user.model.TodoEntity;
 import com.example.domain.user.service.TodoService;
 import com.example.repository.TodoMapper;
 
@@ -15,28 +15,28 @@ public class TodoServiceImpl implements TodoService {
 	
 	@Autowired
 	private TodoMapper mapper;
-	
-	public List<UserEntity> selectAll() {
-		return mapper.selectAll();
+	//Todo一覧取得
+	public List<TodoEntity> selectAllTodoList() {
+		return mapper.selectAllTodoList();
 	}
 	
-	//完了取得
-	public List<UserEntity> selectTrue() {
-		return mapper.selectTrue();
+	//完了リスト取得
+	public List<TodoEntity> selectCompletedTodoList() {
+		return mapper.selectCompletedTodoList();
 	}
 	
-	//未完了取得
-	public List<UserEntity> selectFalse() {
-		return mapper.selectFalse();
+	//未完了リスト取得
+	public List<TodoEntity> selectIncompleteTodoList() {
+		return mapper.selectIncompleteTodoList();
 	}
 	
-	//ユーザー一件取得
-	public UserEntity selectOne(Integer id) {
+	//Todo一件取得
+	public TodoEntity selectOne(Integer id) {
 		return mapper.selectOne(id);
 	}
 	
 	//Todo一件登録
-	public void insertOne(UserEntity todo) {
+	public void insertOne(TodoEntity todo) {
 		mapper.insertOne(todo);
 	}
 	
@@ -46,7 +46,7 @@ public class TodoServiceImpl implements TodoService {
 	}
 	
 	//完了済みTodo削除
-	public void deleteTodo(Boolean isDone) {
-		int count = mapper.deleteTodo(isDone);
+	public void deleteCompletedTodoList(Boolean isDone) {
+		int count = mapper.deleteCompletedTodoList(isDone);
 	}
 }

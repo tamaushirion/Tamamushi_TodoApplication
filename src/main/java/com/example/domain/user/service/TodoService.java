@@ -3,29 +3,29 @@ package com.example.domain.user.service;
 import java.util.Date;
 import java.util.List;
 
-import com.example.domain.user.model.UserEntity;
+import com.example.domain.user.model.TodoEntity;
 
 
 public interface TodoService {
 	
-	//DBから一覧取得
-	public List<UserEntity> selectAll();
+	//DBからTodo一覧取得
+	public List<TodoEntity> selectAllTodoList();
 	
-	//完了取得
-	public List<UserEntity> selectTrue(); 
+	//完了リスト取得
+	public List<TodoEntity> selectCompletedTodoList(); 
 	
-	//未完了取得
-	public List<UserEntity> selectFalse();
+	//未完了リスト取得
+	public List<TodoEntity> selectIncompleteTodoList();
 	
-	//ユーザー一件取得
-	public UserEntity selectOne(Integer id);
+	//Todo一件取得
+	public TodoEntity selectOne(Integer id);
 	
 	//Todo一件登録
-	public void insertOne(UserEntity todo);
+	public void insertOne(TodoEntity todo);
 	
 	//Todo一件更新
 	public void updateOne(Integer id, String title, Date TimeLimit, Boolean isDone);
 	
 	//完了済みTodo削除
-	public void deleteTodo(Boolean isDone);
+	public void deleteCompletedTodoList(Boolean isDone);
 }

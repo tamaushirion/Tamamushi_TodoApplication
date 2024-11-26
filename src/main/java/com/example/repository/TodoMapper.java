@@ -6,29 +6,29 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.domain.user.model.UserEntity;
+import com.example.domain.user.model.TodoEntity;
 
 @Mapper
 public interface TodoMapper {
 	
-	//DBから一覧取得
-	public List<UserEntity> selectAll();
+	//DBからTodo一覧取得
+	public List<TodoEntity> selectAllTodoList();
 	
-	//完了取得
-	public List<UserEntity> selectTrue(); 
+	//完了リスト取得
+	public List<TodoEntity> selectCompletedTodoList(); 
 	
-	//未完了取得
-	public List<UserEntity> selectFalse(); 
+	//未完了リスト取得
+	public List<TodoEntity> selectIncompleteTodoList(); 
 	
-	//ユーザー一件取得
-	public UserEntity selectOne(Integer id);
+	//Todo一件取得
+	public TodoEntity selectOne(Integer id);
 	
 	//Todo一件登録
-	public void insertOne(UserEntity todo);
+	public void insertOne(TodoEntity todo);
 	
 	//Todo一件更新
 	public void updateOne(@Param("id") Integer id, @Param("title") String title, @Param("timeLimit") Date TimeLimit, @Param("isDone") Boolean isDone);
 	
 	//完了済みTodo削除
-	public int deleteTodo(Boolean isDone);
+	public int deleteCompletedTodoList(Boolean isDone);
 }

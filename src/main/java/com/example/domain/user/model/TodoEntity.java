@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class UserEntity {
+public class TodoEntity {
 	
 	private Integer id;
 	private String title;
