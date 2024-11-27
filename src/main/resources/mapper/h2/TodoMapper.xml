@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.repository.TodoMapper">
+
+<resultMap type="com.example.domain.user.model.TodoEntity" id="user">
+  <id column="id" property="id"/>
+  <result column="title" property="title" />
+  <result column="is_done" property="isDone" />
+  <result column="time_limit" property="timeLimit" />
+</resultMap>
+
+<!-- 一覧取得 -->
+<select id="selectAllTodoList" resultType="com.example.domain.user.model.TodoEntity">
+
+  SELECT * FROM TODO_DETAILS
+  
+</select>
+
+<!-- 完了取得 -->
+<select id="selectCompletedTodoList" resultType="com.example.domain.user.model.TodoEntity">
+
+  SELECT * FROM TODO_DETAILS WHERE IS_DONE = 'TRUE'
+  
+</select>
+
+<!-- 未完了取得 -->
+<select id="selectIncompleteTodoList" resultType="com.example.domain.user.model.TodoEntity">
+
+  SELECT * FROM TODO_DETAILS WHERE IS_DONE = 'FALSE'
+  
+</select>
+
+<!-- Todo1件取得 -->
+<select id="selectOne" resultType="com.example.domain.user.model.TodoEntity">
+
+  SELECT * FROM TODO_DETAILS WHERE ID = #{id}
+  
+</select>
+
+<!-- Todo1件登録 -->
+<insert id="insertOne">
+
+INSERT INTO TODO_DETAILS(
+title,
+is_done,
+time_limit
+) VALUES (
+#{title},
+#{isDone},
+#{timeLimit}
+)
+
+</insert>
+
+<!-- Todo1件更新 -->
+<update id="updateOne">
+
+  UPDATE TODO_DETAILS SET
+    id = #{id},
+    title = #{title},
+    time_limit = #{timeLimit},
+    is_done = #{isDone}
+  WHERE
+    id = #{id}
+
+</update>
+
+<!-- 完了済みTodo削除 -->
+<delete id="deleteCompletedTodoList">
+	DELETE FROM TODO_DETAILS WHERE is_done = true
+</delete>
+
+</mapper>

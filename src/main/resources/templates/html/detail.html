@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/detail.css}">
+<title>詳細画面</title>
+</head>
+<body>
+<body class="form-detail">
+  <form th:action="@{/update}" method="post" th:object="${detailForm}">
+  <h1>TodoDetail</h1>
+  <input type="hidden" th:field="*{id}"/>
+  <div class="form-group">
+      <label for="title" class="form-label">タイトル</label>
+      <input class="form-control" type="text" style="text-align:center" th:field="*{title}" th:errorclass="is-invalid"/>
+      <div class="invalid-feedback" th:errors="*{title}"></div>
+  </div>
+  <div class="form-group">
+	  <label for="timeLimit" class="form-label">期日</label>
+	  <input class="form-control" type="date" style="text-align:center" th:field="*{timeLimit}" th:errorclass="is-invalid"/>
+	  <div class="invalid-feedback" th:errors="*{timeLimit}"></div>
+  </div>
+  <div class="form-group">   
+      <input type="checkbox" th:field="*{isDone}"/>
+      <label class="form-check-label">完了フラグ</label>
+  </div>
+  <input type="submit" value="更新" class="btn btn-primary w-100 mt-3" />
+</form>
+</body>
+</html>
