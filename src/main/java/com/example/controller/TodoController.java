@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -58,11 +61,29 @@ public class TodoController {
 		//タイトル重複チェックのためリスト全権取得
 		List<TodoEntity> allTodoList = service.selectAllTodoList();
 		
-		//バリデーションチェック
-		if(bindingResult.hasErrors()) {
+		//現在の日付取得
+		Date nowdate = new Date();
+        // SimpleDateFormatをオブジェクト化し、任意のフォーマットを設定
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        //バリデーションチェック
+      	if(bindingResult.hasErrors()) {
+      	
+      		return getAddTodo(model, form);
+      	}
+        
+      	//現在日時と入力日時のチェック
+		try {
+			if(form.getTimeLimit().before(dateFormat.parse(dateFormat.format(nowdate)))) {
+				
+				return getAddTodo(model, form);
+			}
 			
-			return getAddTodo(model, form);
+		} catch (ParseException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
+		
 		//タイトル重複チェック
 		for(TodoEntity todo : allTodoList) {
 			if(todo.getTitle().equals(form.getTitle())) {
@@ -96,9 +117,28 @@ public class TodoController {
 		//タイトル重複チェックのためリスト全権取得
 		List<TodoEntity> allTodoList = service.selectAllTodoList();
 		
+		//現在の日付取得
+		Date nowdate = new Date();
+        // SimpleDateFormatをオブジェクト化し、任意のフォーマットを設定
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "html/detail";
+		}
+		
+		//現在日時と入力日時のチェック
+		//日時のNulチェック
+		try {
+			if(form.getTimeLimit() == null || form.getTimeLimit().before(dateFormat.parse(dateFormat.format(nowdate)))) {
+				
+				return "html/detail";
+			}
+			
+		} catch (ParseException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
 		
 		//タイトル重複チェック

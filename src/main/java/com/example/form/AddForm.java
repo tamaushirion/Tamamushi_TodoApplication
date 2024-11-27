@@ -2,7 +2,7 @@ package com.example.form;
 
 import java.util.Date;
 
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +15,8 @@ public class AddForm {
 	private Integer id;
 	@Size(min = 1, max = 40, message = "1文字以上、40文字以下で入力してください")
 	private String title;
-	@DateTimeFormat(pattern = "yyyy-MM-dd") 
-	@FutureOrPresent
+	@NotNull(message = "日付を入力してください")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date timeLimit;
 	private Boolean isDone;
 }
